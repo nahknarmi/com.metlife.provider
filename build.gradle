@@ -7,6 +7,7 @@ buildscript {
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.9.RELEASE")
+        classpath 'au.com.dius:pact-jvm-provider-gradle_2.12:3.5.10'
     }
 }
 
@@ -14,6 +15,8 @@ buildscript {
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'au.com.dius.pact'
+
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -42,4 +45,24 @@ dependencies {
 
     compile("org.springframework.boot:spring-boot-starter-actuator")
 
+//    testCompile group: 'au.com.dius', name: 'pact-jvm-provider-gradle_2.12', version: '3.5.10'
+//    testCompile group: 'io.gatling', name: 'jsonpath_2.12', version: '0.6.10'
+//    testCompile 'json-smart:json-path:2.2.0'
+
 }
+
+pact {
+
+    serviceProviders {
+
+        provider1 {
+//            host = { lookupHostName() }
+
+            hasPactWith('com.metlife.consumer') {
+                pactSource = file('/Users/imrank/scratch/metlife/pact-spike/eclaims/com.metlife.producer/com.metlife.consumer-com.metlife.producer.json')
+            }
+        }
+    }
+}
+
+
