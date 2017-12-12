@@ -35,6 +35,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web") {
         exclude module: "spring-boot-starter-tomcat"
     }
+
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+
     compile("org.springframework.boot:spring-boot-starter-jetty")
     // end::jetty[]
     // tag::actuator[]
@@ -56,10 +59,9 @@ pact {
     serviceProviders {
 
         provider1 {
-//            host = { lookupHostName() }
 
             hasPactWith('com.metlife.consumer') {
-                pactSource = file('/Users/imrank/scratch/metlife/pact-spike/eclaims/com.metlife.producer/com.metlife.consumer-com.metlife.producer.json')
+                pactSource = file('/Users/imrank/scratch/metlife/pact-spike/eclaims/com.metlife.consumer/target/pacts/com.metlife.consumer-com.metlife.producer.json')
             }
         }
     }
