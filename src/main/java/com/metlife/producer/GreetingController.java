@@ -12,7 +12,6 @@ public class GreetingController {
     private final AtomicLong counter = new AtomicLong();
 
     @RequestMapping(value = "/greeting", method = RequestMethod.GET)
-    @ResponseBody
     public ResponseEntity<Greeting> greeting(@RequestParam(value = "name", defaultValue = "World") String name){
         Greeting greeting = new Greeting(counter.incrementAndGet(), String.format("Hello, %s!", name));
         return new ResponseEntity<>(greeting, HttpStatus.OK);
