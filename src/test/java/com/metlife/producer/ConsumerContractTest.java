@@ -16,7 +16,6 @@ import org.springframework.boot.SpringApplication;
 @PactUrl(urls = {"file:///Users/imrank/scratch/metlife/pact-spike/eclaims/com.metlife.consumer/target/pacts/com.metlife.consumer-com.metlife.producer.json"})
 public class ConsumerContractTest {
 
-
     @TestTarget
     public final Target target = new HttpTarget(8080);
 
@@ -30,7 +29,7 @@ public class ConsumerContractTest {
 
 
     @State("test state")
-    public void toDefaultState() {
+    public void toTestState() {
         // Prepare service before interaction that require "default" state
         // ...
 //        LOGGER.info("Now service in default state");

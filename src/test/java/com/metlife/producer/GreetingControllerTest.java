@@ -22,7 +22,6 @@ public class GreetingControllerTest {
     @Autowired
     private MockMvc mvc;
 
-
     @Test
     public void greeting() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/greeting").accept(MediaType.APPLICATION_JSON))
