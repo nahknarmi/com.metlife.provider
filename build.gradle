@@ -47,11 +47,6 @@ dependencies {
     testCompile("org.springframework.boot:spring-boot-starter-test")
 
     compile("org.springframework.boot:spring-boot-starter-actuator")
-
-//    testCompile group: 'au.com.dius', name: 'pact-jvm-provider-gradle_2.12', version: '3.5.10'
-//    testCompile group: 'io.gatling', name: 'jsonpath_2.12', version: '0.6.10'
-//    testCompile 'json-smart:json-path:2.2.0'
-
 }
 
 pact {
@@ -61,6 +56,7 @@ pact {
         provider1 {
 
             hasPactWith('com.metlife.consumer') {
+                //UPDATE THIS PATH WITH RELATIVE PATH TO PACT FILE
                 pactSource = file('/Users/imrank/scratch/metlife/pact-spike/eclaims/com.metlife.consumer/target/pacts/com.metlife.consumer-com.metlife.producer.json')
             }
         }
