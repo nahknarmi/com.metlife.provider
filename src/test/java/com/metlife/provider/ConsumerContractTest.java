@@ -1,4 +1,4 @@
-package com.metlife.producer;
+package com.metlife.provider;
 
 import au.com.dius.pact.provider.junit.PactRunner;
 import au.com.dius.pact.provider.junit.Provider;
@@ -13,7 +13,7 @@ import org.springframework.boot.SpringApplication;
 
 @RunWith(PactRunner.class)
 @Provider("com.metlife.producer")
-@PactUrl(urls = {"file:///Users/imrank/scratch/metlife/pact-spike/eclaims/com.metlife.consumer/target/pacts/com.metlife.consumer-com.metlife.producer.json"})
+@PactUrl(urls = {"file:///Users/imrank/scratch/metlife/pact-spike/eclaims/com.metlife.consumer/target/pacts/com.metlife.consumer-com.metlife.provider.json"})
 public class ConsumerContractTest {
 
     @TestTarget

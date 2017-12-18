@@ -1,4 +1,4 @@
-package com.metlife.producer;
+package com.metlife.provider;
 
 public class Greeting {
 
