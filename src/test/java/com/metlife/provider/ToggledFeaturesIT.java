@@ -33,12 +33,12 @@ public class ToggledFeaturesIT {
 
     @Before
     public void setUp() throws Exception {
-        this.base = new URL("http://localhost:" + port + "/toggle");
+        this.base = new URL("http://localhost:" + port + "/");
     }
 
     @Test
     public void getHello() throws Exception {
-        ResponseEntity<String> response = template.getForEntity(base.toString(), String.class);
+        ResponseEntity<String> response = template.getForEntity(base.toString() + "toggle", String.class);
         assertThat(response.getStatusCode(), equalTo(NOT_FOUND));
     }
 }

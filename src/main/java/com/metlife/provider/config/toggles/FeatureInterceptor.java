@@ -24,13 +24,12 @@ public class FeatureInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         boolean resumeChain = true;
-        Optional<FeatureToggle> featureToggleMethod = featureToggledMethod(handler);
+        Optional<FeatureToggle> featureToggleMethodAnnotation = extractFeatureToggleAnnotation(handler);
 
-        if (featureToggleMethod.isPresent() && !featureOn(featureToggleMethod.get())) {
+        if (featureToggleMethodAnnotation.isPresent() && featureIsTurnedOff(featureToggleMethodAnnotation.get())) {
             response.setStatus(SC_NOT_FOUND);
             resumeChain = false;
         }
-
         return resumeChain;
     }
 
@@ -44,13 +43,13 @@ public class FeatureInterceptor implements HandlerInterceptor {
             throws Exception {
     }
 
-    private Optional<FeatureToggle> featureToggledMethod(Object handler) {
+    private Optional<FeatureToggle> extractFeatureToggleAnnotation(Object handler) {
         return ofNullable(handler)
                 .map(h -> (HandlerMethod) h)
                 .map(hm -> hm.getMethodAnnotation(FeatureToggle.class));
     }
 
-    private Boolean featureOn(FeatureToggle featureToggle) {
-        return featureRepository.isOn(featureToggle.feature()).orElse(false);
+    private Boolean featureIsTurnedOff(FeatureToggle featureToggle) {
+        return !featureRepository.isOn(featureToggle.feature()).orElse(false);
     }
 }

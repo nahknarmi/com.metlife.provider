@@ -45,7 +45,7 @@ public class FeatureInterceptorTest {
     @Test
     public void givenFeatureIsAnnotatedAndItsOnThenPassThrough() throws Exception {
         //given
-        when(featureRepository.isOn(FEATURE_NAME)).thenReturn(java.util.Optional.of(TRUE));
+        when(featureRepository.isOn(FEATURE_NAME)).thenReturn(Optional.of(TRUE));
 
         when(featureToggle.feature()).thenReturn(FEATURE_NAME);
         when(handlerMethod.getMethodAnnotation(FeatureToggle.class)).thenReturn(featureToggle);

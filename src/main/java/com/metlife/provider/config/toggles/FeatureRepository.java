@@ -1,6 +1,5 @@
 package com.metlife.provider.config.toggles;
 
-import org.jetbrains.annotations.NotNull;
 import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.MapPropertySource;
@@ -12,8 +11,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import static java.lang.Boolean.FALSE;
-import static java.lang.Boolean.parseBoolean;
 import static java.util.Optional.ofNullable;
 
 public class FeatureRepository {
@@ -24,7 +21,16 @@ public class FeatureRepository {
         this.env = env;
     }
 
-    public Optional<Boolean> isOn(String featureKey) {
+    /**
+     * Tests to see if a given feature exists and whether it is on or off.
+     *
+     * @param featureKey feature as specified in the application.properties file.
+     * @return
+     * Optional.absent() if feature does not exist,
+     * Optional(true) if feature exists and is ON,
+     * Optional(false) if feature exists and is OFF
+     */
+    Optional<Boolean> isOn(String featureKey) {
         return ofNullable(allFeatures().get(featureKey));
     }
 
@@ -41,5 +47,7 @@ public class FeatureRepository {
     }
 
     private Map<String, Boolean> allFeatures() {
-        return featureKeys().stream().collect(Collectors.toMap(k -> k, k -> Boolean.parseBoolean(env.getProperty(k))));
+        return featureKeys()
+                .stream()
+                .collect(Collectors.toMap(k -> k, k -> Boolean.parseBoolean(env.getProperty(k))));
     }}
