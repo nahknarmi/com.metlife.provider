@@ -29,8 +29,8 @@ public class GreetingController {
         return new Greeting(counter.incrementAndGet(), String.format("Hello, %s!", name));
     }
 
-    @RequestMapping(value = "toggle")
-    @FeatureToggle(feature = "feature.toggleA", expectedToBeOn = true)
+    @RequestMapping("/toggle")
+    @FeatureToggle(feature = "feature.toggleA")
     public Map<String, String> toggledFeature() {
         return of("toggle", "true", "name", appConfig.getName());
     }

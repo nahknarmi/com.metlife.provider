@@ -7,6 +7,4 @@ import java.lang.annotation.*;
 @Documented
 public @interface FeatureToggle {
     String feature();
-
-    boolean expectedToBeOn() default true;
 }

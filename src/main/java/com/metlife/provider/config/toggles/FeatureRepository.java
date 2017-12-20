@@ -8,6 +8,7 @@ import org.springframework.core.env.PropertySource;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -23,8 +24,8 @@ public class FeatureRepository {
         this.env = env;
     }
 
-    public Boolean isOn(String featureKey) {
-        return ofNullable(allFeatures().get(featureKey)).orElse(FALSE);
+    public Optional<Boolean> isOn(String featureKey) {
+        return ofNullable(allFeatures().get(featureKey));
     }
 
     private Set<String> featureKeys() {

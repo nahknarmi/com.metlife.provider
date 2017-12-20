@@ -11,6 +11,8 @@ import org.springframework.web.method.HandlerMethod;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.Optional;
+
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.hamcrest.core.Is.is;
@@ -20,6 +22,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class FeatureInterceptorTest {
+    private static final String FEATURE_NAME = "feature.A";
 
     @Mock
     private FeatureRepository featureRepository;
@@ -29,23 +32,23 @@ public class FeatureInterceptorTest {
 
     @Mock
     private HandlerMethod handlerMethod;
+    private MockHttpServletRequest request;
+    private MockHttpServletResponse response;
 
     @Before
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
+        request = new MockHttpServletRequest();
+        response = new MockHttpServletResponse();
     }
 
     @Test
-    public void givenFeatureIsOffButItsOffThenPassThrough() throws Exception {
+    public void givenFeatureIsAnnotatedAndItsOnThenPassThrough() throws Exception {
         //given
-        String featureName = "feature.A";
-        when(featureRepository.isOn(featureName)).thenReturn(FALSE);
+        when(featureRepository.isOn(FEATURE_NAME)).thenReturn(java.util.Optional.of(TRUE));
 
-        when(featureToggle.feature()).thenReturn(featureName);
+        when(featureToggle.feature()).thenReturn(FEATURE_NAME);
         when(handlerMethod.getMethodAnnotation(FeatureToggle.class)).thenReturn(featureToggle);
-
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        MockHttpServletResponse response = new MockHttpServletResponse();
 
         //when
         FeatureInterceptor interceptor = new FeatureInterceptor(featureRepository);
@@ -56,16 +59,12 @@ public class FeatureInterceptorTest {
     }
 
     @Test
-    public void givenFeatureIsOnAndItsOffThenInterceptedWith404() throws Exception {
+    public void givenFeatureIsAnnotatedAndItsOffThenInterceptedWith404() throws Exception {
         //given
-        String featureName = "feature.A";
-        when(featureRepository.isOn(featureName)).thenReturn(TRUE);
+        when(featureRepository.isOn(FEATURE_NAME)).thenReturn(Optional.of(FALSE));
 
-        when(featureToggle.feature()).thenReturn(featureName);
+        when(featureToggle.feature()).thenReturn(FEATURE_NAME);
         when(handlerMethod.getMethodAnnotation(FeatureToggle.class)).thenReturn(featureToggle);
-
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        MockHttpServletResponse response = new MockHttpServletResponse();
 
         //when
         FeatureInterceptor interceptor = new FeatureInterceptor(featureRepository);
@@ -80,9 +79,6 @@ public class FeatureInterceptorTest {
     public void givenFeatureAnnotationIsNotPresentPassThrough() throws Exception {
         //given
         when(handlerMethod.getMethodAnnotation(FeatureToggle.class)).thenReturn(null);
-
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        MockHttpServletResponse response = new MockHttpServletResponse();
 
         //when
         FeatureInterceptor interceptor = new FeatureInterceptor(featureRepository);
