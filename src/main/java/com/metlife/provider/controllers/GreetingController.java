@@ -1,15 +1,18 @@
 package com.metlife.provider.controllers;
 
-import com.google.common.collect.ImmutableMap;
 import com.metlife.provider.Greeting;
 import com.metlife.provider.config.AppConfig;
 import com.metlife.provider.config.toggles.FeatureToggle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+
+import static com.google.common.collect.ImmutableMap.of;
 
 @RestController
 public class GreetingController {
@@ -27,8 +30,8 @@ public class GreetingController {
     }
 
     @RequestMapping(value = "toggle")
-    @FeatureToggle(feature = "feature.toggleA")
+    @FeatureToggle(feature = "feature.toggleA", expectedToBeOn = true)
     public Map<String, String> toggledFeature() {
-        return ImmutableMap.of("toggle", "true", "name", appConfig.getName());
+        return of("toggle", "true", "name", appConfig.getName());
     }
 }

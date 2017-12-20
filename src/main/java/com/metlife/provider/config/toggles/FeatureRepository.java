@@ -1,5 +1,6 @@
 package com.metlife.provider.config.toggles;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.MapPropertySource;
@@ -11,13 +12,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import static java.lang.Boolean.FALSE;
+import static java.lang.Boolean.parseBoolean;
 import static java.util.Optional.ofNullable;
 
 public class FeatureRepository {
     private static final String FEATURE_PREFIX = "feature.";
     private final Environment env;
 
-    public FeatureRepository(Environment env) {
+    FeatureRepository(Environment env) {
         this.env = env;
     }
 
