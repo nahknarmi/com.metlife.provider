@@ -1,7 +1,5 @@
 package com.metlife.provider;
 
-import com.metlife.provider.config.ApplicationProperties;
-import com.metlife.provider.controllers.GreetingController;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
