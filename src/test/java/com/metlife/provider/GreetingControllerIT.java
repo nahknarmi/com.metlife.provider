@@ -21,7 +21,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("dev")
 public class GreetingControllerIT {
-
     @LocalServerPort
     private int port;
 
@@ -29,7 +28,6 @@ public class GreetingControllerIT {
 
     @Autowired
     private TestRestTemplate template;
-
 
     @Before
     public void setUp() throws Exception {
