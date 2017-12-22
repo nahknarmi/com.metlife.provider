@@ -11,19 +11,8 @@ import javax.annotation.PostConstruct;
 
 @SpringBootApplication
 public class Application {
-    private static Logger logger = LoggerFactory.getLogger(Application.class);
-
-    @Autowired
-    private AppConfig properties;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
-
-    @PostConstruct
-    private void init(){
-        logger.info("Spring Boot - @ConfigurationProperties annotation example");
-        logger.info(properties.toString());
-    }
-
 }
