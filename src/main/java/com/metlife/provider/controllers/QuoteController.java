@@ -16,6 +16,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 
+import static java.util.Optional.ofNullable;
+
 @RestController
 public class QuoteController {
     private final AtomicLong counter = new AtomicLong();
@@ -32,22 +34,21 @@ public class QuoteController {
 
     @RequestMapping(path = "/quotes", method = RequestMethod.POST)
     public ResponseEntity<?> create(@Valid @RequestBody Quote quote) {
-        quote.setId(counter.incrementAndGet());
-        quotes.put(quote.getId(), quote);
-
-//        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-//                .path("/{id}")
-//                .buildAndExpand(quote.getId())
-//                .toUri();
+        quotes.put(quote.getId(),
+                Quote.builder()
+                        .id(counter.incrementAndGet())
+                        .build()
+        );
 
         Link self = new QuoteResource(quote).getLink("self");
 
         return ResponseEntity.created(URI.create(self.getHref())).build();
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/quotes/{quoteId}")
+    @RequestMapping(method = RequestMethod.GET, path = "/quotes/{quoteId}")
     public QuoteResource quote(@PathVariable Long quoteId) {
-        return Optional.ofNullable(quotes.get(quoteId))
-                .map(quote -> new QuoteResource(quotes.get(quoteId))).orElseThrow(NotFoundException::new);
+        return ofNullable(quotes.get(quoteId))
+                .map(quote -> new QuoteResource(quotes.get(quoteId)))
+                .orElseThrow(NotFoundException::new);
     }
 }
