@@ -29,7 +29,10 @@ public class GreetingController {
 
     @RequestMapping("/greeting")
     public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) throws IOException {
-        return new Greeting(counter.incrementAndGet(), String.format("Hello, %s!", name));
+        return Greeting.builder()
+                .content(String.format("Hello, %s!", name))
+                .id(counter.incrementAndGet())
+                .build();
     }
 
     @RequestMapping("/toggle")

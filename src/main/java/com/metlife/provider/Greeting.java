@@ -1,20 +1,14 @@
 package com.metlife.provider;
 
+
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NonNull;
+
+
+@Builder()
+@Getter
 public class Greeting {
-
-    private final long id;
-    private final String content;
-
-    public Greeting(long id, String content) {
-        this.id = id;
-        this.content = content;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getContent() {
-        return content;
-    }
+    private final @NonNull Long id;
+    private final @NonNull String content;
 }

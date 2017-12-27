@@ -12,6 +12,9 @@ public class GreetingService {
 
     @Profiled
     public Greeting greetings() {
-        return new Greeting(counter.incrementAndGet(), "Greetings");
+        return Greeting.builder()
+                .id(counter.incrementAndGet())
+                .content("Greetings")
+                .build();
     }
 }
