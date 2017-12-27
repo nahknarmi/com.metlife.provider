@@ -6,6 +6,7 @@ import com.metlife.provider.config.toggles.FeatureToggle;
 import com.metlife.provider.services.GreetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,7 @@ public class GreetingController {
         this.greetingService = greetingService;
     }
 
-    @RequestMapping("/greeting")
+    @RequestMapping(value = "/greeting", method = RequestMethod.GET)
     public Greeting greeting(@RequestParam(value = "name", defaultValue = "World") String name) throws IOException {
         return Greeting.builder()
                 .content(String.format("Hello, %s!", name))
@@ -35,13 +36,13 @@ public class GreetingController {
                 .build();
     }
 
-    @RequestMapping("/toggle")
+    @RequestMapping(value = "/toggle", method = RequestMethod.GET)
     @FeatureToggle(feature = "feature.toggleA")
     public Map<String, String> toggledFeature() {
         return of("toggle", "true", "name", appConfig.getName());
     }
 
-    @RequestMapping("/foo")
+    @RequestMapping(value = "/foo", method = RequestMethod.GET)
     public Greeting greetings() {
         return greetingService.greetings();
     }
