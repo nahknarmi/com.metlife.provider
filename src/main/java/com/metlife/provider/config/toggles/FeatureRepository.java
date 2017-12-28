@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Optional.ofNullable;
 
-public class FeatureRepository {
+class FeatureRepository {
     private static final String FEATURE_PREFIX = "feature.";
     private final Environment env;
 
