@@ -48,6 +48,7 @@ jobs:
             mkdir -p ~/junit/
             find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/junit/ \;
           when: always
+
       - store_test_results:
           path: ~/junit
 
@@ -55,4 +56,4 @@ jobs:
           path: ~/junit
 
       - store_artifacts:
-          path: build/libs/*.jar
+          path: ~/repo/build/libs/com.metlife.provider-1.0.0.jar

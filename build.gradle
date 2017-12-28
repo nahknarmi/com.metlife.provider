@@ -32,8 +32,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 jar {
-    baseName = 'gs-spring-boot'
-    version =  '0.1.0'
+    baseName = 'com.metlife.provider'
+    version =  '1.0.0'
 }
 
 repositories {
