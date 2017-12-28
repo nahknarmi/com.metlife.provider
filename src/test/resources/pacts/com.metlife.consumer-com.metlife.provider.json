@@ -1,0 +1,63 @@
+{
+    "provider": {
+        "name": "com.metlife.provider"
+    },
+    "consumer": {
+        "name": "com.metlife.consumer"
+    },
+    "interactions": [
+        {
+            "description": "Greeting",
+            "request": {
+                "method": "GET",
+                "path": "/greeting",
+                "headers": {
+                    "Content-Type": "application/json"
+                }
+            },
+            "response": {
+                "status": 200,
+                "headers": {
+                    "Content-Type": "application/json"
+                },
+                "body": {
+                    "id": 1,
+                    "content": "Hello, World!"
+                },
+                "matchingRules": {
+                    "body": {
+                        "$.content": {
+                            "matchers": [
+                                {
+                                    "match": "type"
+                                }
+                            ],
+                            "combine": "AND"
+                        },
+                        "$.id": {
+                            "matchers": [
+                                {
+                                    "match": "type"
+                                }
+                            ],
+                            "combine": "AND"
+                        }
+                    }
+                }
+            },
+            "providerStates": [
+                {
+                    "name": "test state"
+                }
+            ]
+        }
+    ],
+    "metadata": {
+        "pact-specification": {
+            "version": "3.0.0"
+        },
+        "pact-jvm": {
+            "version": "3.5.10"
+        }
+    }
+}
