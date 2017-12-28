@@ -68,3 +68,15 @@ dependencies {
 }
 
 
+task integrationTests(type: Test, dependsOn: testClasses) {
+    include '**/**IT*'
+}
+
+task unitTests(type: Test, dependsOn: testClasses) {
+    include '**/**Test*'
+    exclude '**/**ContractTest*'
+}
+
+task contractTests(type: Test, dependsOn: testClasses) {
+    include '**/**ContractTest*'
+}

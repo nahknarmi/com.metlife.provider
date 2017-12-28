@@ -40,7 +40,23 @@ jobs:
 
       - run:
           name: Build
-          command: gradle build
+          command: gradle assemble
+
+      - run:
+          name: Run Unit Tests
+          command: gradle unitTests
+
+      - run:
+          name: Run Integration Tests
+          command: gradle integrationTests
+
+      - run:
+          name: Run Contract Tests
+          command: gradle contractTests
+
+      - run:
+          name: Build
+          command: gradle jar
 
       - run:
           name: Save test results
