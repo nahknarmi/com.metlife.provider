@@ -67,7 +67,6 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.16.18'
 }
 
-
 task integrationTests(type: Test, dependsOn: testClasses) {
     include '**/**IT*'
 }
