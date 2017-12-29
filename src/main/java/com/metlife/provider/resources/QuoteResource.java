@@ -12,9 +12,8 @@ public class QuoteResource extends ResourceSupport {
 
     public QuoteResource(Quote quote) {
         this.quote = quote;
-//        this.add(new Link(quote));
-        this.add(linkTo(QuoteController.class).withRel("quotes"));
-        this.add(linkTo(methodOn(QuoteController.class).create(quote)).withSelfRel());
+        this.add(linkTo(QuoteController.class).slash(quote.getId()).withSelfRel());
+        this.add(linkTo(methodOn(QuoteController.class).quotes()).withRel("quotes").withType("quotes"));
     }
 
     public Quote getQuote() {

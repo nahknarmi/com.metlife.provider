@@ -1,4 +1,4 @@
-package com.metlife.provider.config.toggles;
+package com.metlife.provider.infra.config.toggles;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -7,9 +7,6 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.web.method.HandlerMethod;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import java.util.Optional;
 

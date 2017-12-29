@@ -1,4 +1,4 @@
-package com.metlife.provider.config;
+package com.metlife.provider.infra.config;
 
 
 import org.springframework.boot.context.properties.ConfigurationProperties;

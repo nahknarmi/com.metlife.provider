@@ -34,10 +34,8 @@ public class QuoteController {
 
     @RequestMapping(path = "/quotes", method = RequestMethod.POST)
     public ResponseEntity<?> create(@Valid @RequestBody Quote quote) {
-        quotes.put(quote.getId(),
-                Quote.builder()
-                        .id(counter.incrementAndGet())
-                        .build()
+        long quoteId = counter.incrementAndGet();
+        quotes.put(quoteId, Quote.builder().description(quote.getDescription()).id(quoteId).build()
         );
 
         Link self = new QuoteResource(quote).getLink("self");

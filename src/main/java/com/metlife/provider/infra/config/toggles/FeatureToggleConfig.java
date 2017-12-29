@@ -1,4 +1,4 @@
-package com.metlife.provider.config.toggles;
+package com.metlife.provider.infra.config.toggles;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;

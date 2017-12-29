@@ -1,4 +1,4 @@
-package com.metlife.provider.config.toggles;
+package com.metlife.provider.infra.config.toggles;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -6,9 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Optional;

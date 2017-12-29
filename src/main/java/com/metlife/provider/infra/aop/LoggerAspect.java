@@ -1,4 +1,4 @@
-package com.metlife.provider.aop;
+package com.metlife.provider.infra.aop;
 
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -26,7 +26,7 @@ public class LoggerAspect {
     public void requestMapping() {
     }
 
-    @Pointcut("@annotation(com.metlife.provider.aop.Profiled)")
+    @Pointcut("@annotation(com.metlife.provider.infra.aop.Profiled)")
     public void profiled() {
     }
 

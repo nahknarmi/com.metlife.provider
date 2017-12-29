@@ -1,4 +1,4 @@
-package com.metlife.provider.config.toggles;
+package com.metlife.provider.infra.config.toggles;
 
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
