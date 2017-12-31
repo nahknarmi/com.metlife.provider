@@ -15,6 +15,9 @@ jobs:
     steps:
       - checkout
 
+      - attach_workspace:
+          at: ~/repo
+
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -35,7 +38,7 @@ jobs:
 
       - run:
           name: Build
-          command: gradle jar
+          command: gradle assemble
 
       - run:
           name: Save test results
@@ -52,6 +55,10 @@ jobs:
 
       - store_artifacts:
           path: ~/repo/build/libs/com.metlife.provider-1.0.0.jar
+
+      - persist_to_workspace:
+          root: .
+          paths: .
 
   integration_tests:
     docker:
@@ -145,7 +152,43 @@ jobs:
       - store_artifacts:
           path: ~/junit
 
+  publish_docker:
+    docker:
+      # specify the version you desire here
+      - image: google/cloud-sdk
 
+    working_directory: ~/repo
+
+    environment:
+      TERM: dumb
+
+    steps:
+      - checkout
+
+      - attach_workspace:
+          at: ~/repo
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run: docker build -t asia.gcr.io/nahknarmi-190508/com.metlife.provider:$CIRCLE_SHA1 .
+
+      - run: echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
+      - run: shasum ${HOME}/gcp-key.json
+
+      - run: gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+      - run: gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+      - run: gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+      - run: gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+
+      - run: gcloud docker -- push asia.gcr.io/nahknarmi-190508/com.metlife.provider:$CIRCLE_SHA1
+#ONE OFF
+#      - run: kubectl run provider --image=asia.gcr.io/nahknarmi-190508/com.metlife.provider:$CIRCLE_SHA1 --port 8080
+
+      - run: kubectl set image deployment/provider provider=asia.gcr.io/nahknarmi-190508/com.metlife.provider:$CIRCLE_SHA1
+
+#ONE OFF
+#      - run: kubectl expose deployment provider --type=LoadBalancer --port 80 --target-port 8080
 
 workflows:
   version: 2
@@ -153,10 +196,14 @@ workflows:
     jobs:
       - build
 
-      - integration_tests:
+      - publish_docker:
           requires:
             - build
 
+      - integration_tests:
+          requires:
+            - publish_docker
+
       - contract_tests:
           requires:
-            - build
+            - publish_docker

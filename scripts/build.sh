@@ -3,7 +3,7 @@ set -e
 
 gradle clean build
 
-docker stop com.metlife.provider
-docker rm com.metlife.provider
-docker build -t com.metlife.provider .
+docker stop com.metlife.provider || echo 'Container doesnt exist'
+docker rm com.metlife.provider ||  echo 'Container doesnt exist'
+docker build -t asia.gcr.io/nahknarmi-190508/com.metlife.provider:v5 .
 
