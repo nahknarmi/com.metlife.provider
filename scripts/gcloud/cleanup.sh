@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-gcloud container clusters delete nahknarmi --zone=australia-southeast1-a
+gcloud container clusters delete dev-cluster --zone=australia-southeast1-a
