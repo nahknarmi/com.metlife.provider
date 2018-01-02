@@ -2,13 +2,11 @@ version: 2
 jobs:
   build:
     docker:
-      # specify the version you desire here
       - image: circleci/openjdk:8-jdk
 
     working_directory: ~/repo
 
     environment:
-      # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
 
@@ -33,18 +31,12 @@ jobs:
           key: v1-dependencies-{{ checksum "build.gradle" }}
 
       - run:
-          name: Run Unit Tests
-          command: gradle unitTests
-
-      - run:
           name: Build
-          command: gradle assemble
+          command: bash ./scripts/circleci/build.sh
 
       - run:
           name: Save test results
-          command: |
-            mkdir -p ~/junit/
-            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/junit/ \;
+          command: bash ./scripts/circleci/save-test-results.sh
           when: always
 
       - store_test_results:
@@ -68,26 +60,12 @@ jobs:
     working_directory: ~/repo
 
     environment:
-      # Customize the JVM maximum heap limit
       JVM_OPTS: -Xmx3200m
       TERM: dumb
 
     steps:
-      - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "build.gradle" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run: gradle dependencies
-
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
+      - attach_workspace:
+          at: ~/repo
 
       - run:
           name: Run Integration Tests
@@ -95,9 +73,7 @@ jobs:
 
       - run:
           name: Save test results
-          command: |
-            mkdir -p ~/junit/
-            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/junit/ \;
+          command: bash ./scripts/circleci/save-test-results.sh
           when: always
 
       - store_test_results:
@@ -119,21 +95,8 @@ jobs:
       TERM: dumb
 
     steps:
-      - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "build.gradle" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-
-      - run: gradle dependencies
-
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: v1-dependencies-{{ checksum "build.gradle" }}
+      - attach_workspace:
+          at: ~/repo
 
       - run:
           name: Run Contract Tests
@@ -141,9 +104,7 @@ jobs:
 
       - run:
           name: Save test results
-          command: |
-            mkdir -p ~/junit/
-            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/junit/ \;
+          command: bash ./scripts/circleci/save-test-results.sh
           when: always
 
       - store_test_results:
@@ -154,7 +115,6 @@ jobs:
 
   publish_docker:
     docker:
-      # specify the version you desire here
       - image: google/cloud-sdk
 
     working_directory: ~/repo
@@ -163,8 +123,6 @@ jobs:
       TERM: dumb
 
     steps:
-      - checkout
-
       - attach_workspace:
           at: ~/repo
 
@@ -173,18 +131,12 @@ jobs:
 
       - run:
           name: Setup gcloud account
-          command: |
-            echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
-            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-            gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+          command: bash ./scripts/circleci/setup-gcloud-account.sh
 
       - run:
           name: Build and Publish
-          command: |
-            docker build -t asia.gcr.io/nahknarmi-190508/com.metlife.provider:$CIRCLE_SHA1 .
-            gcloud docker -- push asia.gcr.io/nahknarmi-190508/com.metlife.provider:$CIRCLE_SHA1
+          command: bash ./scripts/circleci/publish.sh
+
 
   deploy_to_dev:
     docker:
@@ -197,8 +149,6 @@ jobs:
       TERM: dumb
 
     steps:
-      - checkout
-
       - attach_workspace:
           at: ~/repo
 
@@ -207,20 +157,14 @@ jobs:
 
       - run:
           name: Setup gcloud account
-          command: |
-            echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
-            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-            gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+          command: bash ./scripts/circleci/setup-gcloud-account.sh
 
       - run:
           name: Deploy to dev
-          command: kubectl set image deployment/provider provider=asia.gcr.io/nahknarmi-190508/com.metlife.provider:$CIRCLE_SHA1
+          command: bash ./scripts/circleci/deploy.sh
 
   deploy_to_prod:
     docker:
-      # specify the version you desire here
       - image: google/cloud-sdk
 
     working_directory: ~/repo
@@ -229,8 +173,6 @@ jobs:
       TERM: dumb
 
     steps:
-      - checkout
-
       - attach_workspace:
           at: ~/repo
 
@@ -239,16 +181,11 @@ jobs:
 
       - run:
           name: Setup gcloud account
-          command: |
-            echo ${GOOGLE_AUTH} > ${HOME}/gcp-key.json
-            gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
-            gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-            gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-            gcloud --quiet container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
+          command: bash ./scripts/circleci/setup-gcloud-account.sh
 
       - run:
-          name: Deploy to dev
-          command: kubectl set image deployment/provider provider=asia.gcr.io/nahknarmi-190508/com.metlife.provider:$CIRCLE_SHA1
+          name: Deploy to prod
+          command: bash ./scripts/circleci/deploy.sh
 
 workflows:
   version: 2
