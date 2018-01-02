@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-kubectl set image deployment/provider provider=asia.gcr.io/nahknarmi-190508/com.metlife.provider:$CIRCLE_SHA1
+kubectl set image deployment/provider provider=asia.gcr.io/${GOOGLE_PROJECT_ID}/com.metlife.provider:${CIRCLE_SHA1}
