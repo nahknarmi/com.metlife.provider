@@ -212,6 +212,8 @@ jobs:
           command: |
               apt-get install jq
               bash ./scripts/circleci/smoke-test.sh
+          environment:
+            CIRCLE_SPRING_PROFILES: dev
 
   smoke_test_prod:
     docker:
@@ -235,6 +237,8 @@ jobs:
           command: |
               apt-get install jq
               bash ./scripts/circleci/smoke-test.sh
+          environment:
+            CIRCLE_SPRING_PROFILES: prod
 
 workflows:
   version: 2

@@ -4,14 +4,13 @@ metadata:
   labels:
     run: provider
   name: provider
-  namespace: default
+  namespace: ${SPRING_PROFILE}
 
 spec:
-  clusterIP: 10.47.254.176
   externalTrafficPolicy: Cluster
   ports:
-  - nodePort: 32518
-    port: 80
+#  - nodePort: 32518
+  - port: 80
     protocol: TCP
     targetPort: 8080
   selector:
