@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
 
-kubectl set image deployment/provider provider=asia.gcr.io/${GOOGLE_PROJECT_ID}/com.metlife.provider:${CIRCLE_SHA1}
+kubectl apply -f scripts/circleci/config/deployment-provider.yml
+kubectl apply -f scripts/circleci/config/service-provider.yml
