@@ -26,7 +26,7 @@ spec:
         run: provider
     spec:
       containers:
-      - image: asia.gcr.io/nahknarmi-190508/com.metlife.provider:192ccb43508a81e64ac195b966412eb202360819
+      - image: asia.gcr.io/nahknarmi-190508/com.metlife.provider:${GIT_HASH}
         imagePullPolicy: Always
         name: provider
         ports:

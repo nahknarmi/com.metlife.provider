@@ -137,7 +137,6 @@ jobs:
           name: Build and Publish
           command: bash ./scripts/circleci/publish.sh
 
-
   deploy_to_dev:
     docker:
       # specify the version you desire here
@@ -187,6 +186,29 @@ jobs:
           name: Deploy to prod
           command: bash ./scripts/circleci/deploy.sh
 
+  smoke_test:
+    docker:
+      - image: google/cloud-sdk
+
+    working_directory: ~/repo
+
+    environment:
+      TERM: dumb
+
+    steps:
+      - attach_workspace:
+          at: ~/repo
+
+      - run:
+          name: Setup gcloud account
+          command: bash ./scripts/circleci/setup-gcloud-account.sh
+
+      - run:
+          name: Smoke test
+          command: |
+              apt-get install jq
+              bash ./scripts/circleci/smoke-test.sh
+
 workflows:
   version: 2
   build_and_test:
@@ -209,6 +231,10 @@ workflows:
           requires:
             - integration_tests
             - contract_tests
+
+      - smoke_test:
+          requires:
+            - deploy_to_dev
 
       - deploy_to_prod:
           type: approval
