@@ -161,6 +161,8 @@ jobs:
       - run:
           name: Deploy to dev
           command: bash ./scripts/circleci/deploy.sh
+          environment:
+            CIRCLE_SPRING_PROFILES: dev
 
   deploy_to_prod:
     docker:
@@ -185,6 +187,8 @@ jobs:
       - run:
           name: Deploy to prod
           command: bash ./scripts/circleci/deploy.sh
+          environment:
+            CIRCLE_SPRING_PROFILES: prod
 
   smoke_test_dev:
     docker:

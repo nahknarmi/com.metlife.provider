@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static com.google.common.collect.ImmutableMap.of;
+import static java.util.Optional.ofNullable;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
@@ -47,4 +48,13 @@ public class GreetingController {
         return greetingService.greetings();
     }
 
+    @RequestMapping(value = "/kube", method = GET)
+    public Map<String, String> kube() {
+        return of(
+                "nodeName", ofNullable(System.getenv("MY_NODE_NAME")).orElse("unavailable"),
+                "podName", ofNullable(System.getenv("MY_POD_NAME")).orElse("unavailable"),
+                "podIp", ofNullable(System.getenv("MY_POD_IP")).orElse("unavailable"),
+                "podServiceAccount", ofNullable(System.getenv("MY_POD_SERVICE_ACCOUNT")).orElse("unavailable")
+                );
+    }
 }
