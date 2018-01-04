@@ -67,3 +67,5 @@ fabric.properties
 
 /com.metlife.provider.iml
 /.idea/
+
+scripts/gcloud/config/service-account-creds.json

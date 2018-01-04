@@ -12,7 +12,7 @@ spec:
 #  - nodePort: 32518
   - port: 80
     protocol: TCP
-    targetPort: 8080
+    targetPort: 8081
   selector:
     run: provider
   sessionAffinity: None
