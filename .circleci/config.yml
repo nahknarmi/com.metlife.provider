@@ -164,6 +164,14 @@ jobs:
           environment:
             CIRCLE_SPRING_PROFILES: dev
 
+      - run:
+          name: Smoke test
+          command: |
+              apt-get install jq
+              bash ./scripts/circleci/smoke-test.sh
+          environment:
+            CIRCLE_SPRING_PROFILES: dev
+
   deploy_to_prod:
     docker:
       - image: google/cloud-sdk
@@ -189,48 +197,6 @@ jobs:
           command: bash ./scripts/circleci/deploy.sh
           environment:
             CIRCLE_SPRING_PROFILES: prod
-
-  smoke_test_dev:
-    docker:
-      - image: google/cloud-sdk
-
-    working_directory: ~/repo
-
-    environment:
-      TERM: dumb
-
-    steps:
-      - attach_workspace:
-          at: ~/repo
-
-      - run:
-          name: Setup gcloud account
-          command: bash ./scripts/circleci/setup-gcloud-account.sh
-
-      - run:
-          name: Smoke test
-          command: |
-              apt-get install jq
-              bash ./scripts/circleci/smoke-test.sh
-          environment:
-            CIRCLE_SPRING_PROFILES: dev
-
-  smoke_test_prod:
-    docker:
-      - image: google/cloud-sdk
-
-    working_directory: ~/repo
-
-    environment:
-      TERM: dumb
-
-    steps:
-      - attach_workspace:
-          at: ~/repo
-
-      - run:
-          name: Setup gcloud account
-          command: bash ./scripts/circleci/setup-gcloud-account.sh
 
       - run:
           name: Smoke test
@@ -263,19 +229,11 @@ workflows:
             - integration_tests
             - contract_tests
 
-      - smoke_test_dev:
-          requires:
-            - deploy_to_dev
-
       - sign_off:
           type: approval
           requires:
-            - smoke_test_dev
+            - deploy_to_dev
 
       - deploy_to_prod:
           requires:
             - sign_off
-
-      - smoke_test_prod:
-          requires:
-            - deploy_to_prod
