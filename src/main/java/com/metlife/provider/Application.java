@@ -30,6 +30,7 @@ public class Application {
                         PathSelectors.ant("/greeting"),
                         PathSelectors.ant("/foo"),
                         PathSelectors.ant("/kube"),
+                        PathSelectors.ant("/.well-known/acme-challenge/SYItYSrusYRhXRxPiLAVaY8qAdtPNom1UNKdaJ8XA_w"),
                         PathSelectors.ant("/toggle")
                 ))
                 .build();

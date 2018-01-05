@@ -38,7 +38,7 @@ spec:
             "--http_port", "8081",
             "--backend", "127.0.0.1:8080",
             "--service", "echo-api.endpoints.nahknarmi-190508.cloud.goog",
-            "--version", "2018-01-04r6",
+            "--version", "2018-01-05r0",
             "--service_account_key", "/etc/nginx/creds/service-account-creds.json",
           ]
           ports:
