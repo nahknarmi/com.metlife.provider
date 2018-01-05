@@ -48,6 +48,11 @@ public class GreetingController {
         return greetingService.greetings();
     }
 
+    @RequestMapping(value = "/.well-known/acme-challenge/SYItYSrusYRhXRxPiLAVaY8qAdtPNom1UNKdaJ8XA_w", method = GET)
+    public String blah() {
+        return "SYItYSrusYRhXRxPiLAVaY8qAdtPNom1UNKdaJ8XA_w.eFWv9ACwEktDbQgkL4b4wfBCNoSN7aJhoP6S1upG-jY";
+    }
+
     @RequestMapping(value = "/kube", method = GET)
     public Map<String, String> kube() {
         return of(
