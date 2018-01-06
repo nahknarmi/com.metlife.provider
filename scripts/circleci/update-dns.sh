@@ -22,9 +22,31 @@ fi
 echo 'Adding new DNS records'
 rm -f transaction.yaml
 
-LOAD_BALANCER_IP=$(kubectl get services provider --namespace=${CIRCLE_SPRING_PROFILES} -o json | jq -r '.status.loadBalancer.ingress[0].ip')
-gcloud dns record-sets transaction start -z=${ZONE}
-gcloud dns record-sets transaction add --zone ${ZONE} --name ${HOSTNAME_DNS} --ttl 300 --type A "${LOAD_BALANCER_IP}"
-gcloud dns record-sets transaction execute -z=${ZONE}
+n=0
+until [ $n -ge 5 ]
+do
+  LOAD_BALANCER_IP=$(kubectl get services provider --namespace=${CIRCLE_SPRING_PROFILES} -o json | jq -r '.status.loadBalancer.ingress[0].ip')
 
-gcloud dns record-sets list -z=${ZONE}
+  if [ -z "$LOAD_BALANCER_IP" ]; then
+    echo 'Not found retrying...'
+  else
+    echo ${LOAD_BALANCER_IP}
+    gcloud dns record-sets transaction start -z=${ZONE}
+    gcloud dns record-sets transaction add --zone ${ZONE} --name ${HOSTNAME_DNS} --ttl 300 --type A "${LOAD_BALANCER_IP}"
+    gcloud dns record-sets transaction execute -z=${ZONE}
+
+    gcloud dns record-sets list -z=${ZONE}
+
+    exit 0
+  fi
+
+  n=$[$n+1]
+  sleep 10
+done
+
+echo 'Failed to find load balancer....'
+exit 1
+
+
+
+
