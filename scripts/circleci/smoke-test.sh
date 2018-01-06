@@ -2,7 +2,7 @@
 set -e
 
 n=0
-until [ $n -ge 5 ]
+until [ $n -ge 10 ]
 do
   HOSTNAME_DNS=provider.${CIRCLE_SPRING_PROFILES}.nahknarmi.ga
   echo ${HOSTNAME_DNS}

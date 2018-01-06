@@ -23,7 +23,7 @@ echo 'Adding new DNS records'
 rm -f transaction.yaml
 
 n=0
-until [ $n -ge 5 ]
+until [ $n -ge 10 ]
 do
   LOAD_BALANCER_IP=$(kubectl get services provider --namespace=${CIRCLE_SPRING_PROFILES} -o json | jq -r '.status.loadBalancer.ingress[0].ip')
 
