@@ -29,7 +29,7 @@ do
 
   if [ -z "$LOAD_BALANCER_IP" ]; then
     echo 'Not found retrying...'
-  elif [ ${LOAD_BALANCER_IP} eq 'null' ]; then
+  elif [ ${LOAD_BALANCER_IP} == 'null' ]; then
     echo 'Not found retrying...'
   else
     echo ${LOAD_BALANCER_IP}
