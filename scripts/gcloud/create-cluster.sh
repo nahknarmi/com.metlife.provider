@@ -14,4 +14,4 @@ kubectl create secret generic service-account-creds --from-file=scripts/gcloud/c
 kubectl create secret generic service-account-creds --from-file=scripts/gcloud/config/service-account-creds.json --namespace=prod
 echo 'Secrets mounted'
 
-gcloud endpoints services deploy scripts/gcloud/config/openapi.json
+#gcloud endpoints services deploy scripts/gcloud/config/openapi.json

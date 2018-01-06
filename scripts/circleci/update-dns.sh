@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -eoux pipefail
 
 CIRCLE_SPRING_PROFILES=${1:-dev}
 HOSTNAME_DNS=provider.${CIRCLE_SPRING_PROFILES}.nahknarmi.ga.
