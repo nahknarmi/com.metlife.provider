@@ -69,3 +69,5 @@ fabric.properties
 /.idea/
 
 scripts/gcloud/config/service-account-creds.json
+certs/fullchain.pem
+certs/privkey.pem
