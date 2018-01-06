@@ -4,10 +4,10 @@ set -e
 n=0
 until [ $n -ge 5 ]
 do
-  LOAD_BALANCER_IP=$(kubectl get services provider --namespace=${CIRCLE_SPRING_PROFILES} -o json | jq -r '.status.loadBalancer.ingress[0].ip')
-  echo ${LOAD_BALANCER_IP}
+  HOSTNAME_DNS=provider.${CIRCLE_SPRING_PROFILES}.nahknarmi.ga
+  echo ${HOSTNAME_DNS}
 
-  GIT_SHA1=$(curl ${LOAD_BALANCER_IP}/info | jq -r '.git.commit.id')
+  GIT_SHA1=$(curl ${HOSTNAME_DNS}/info | jq -r '.git.commit.id')
   echo ${GIT_SHA1}
   echo $(echo ${CIRCLE_SHA1} | cut -c -7)
 

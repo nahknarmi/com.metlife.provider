@@ -160,7 +160,10 @@ jobs:
 
       - run:
           name: Deploy to dev
-          command: bash ./scripts/circleci/deploy.sh
+          command: |
+              apt-get install jq
+              bash ./scripts/circleci/deploy.sh
+              bash ./scripts/circleci/update-dns.sh dev
           environment:
             CIRCLE_SPRING_PROFILES: dev
 
@@ -194,7 +197,10 @@ jobs:
 
       - run:
           name: Deploy to prod
-          command: bash ./scripts/circleci/deploy.sh
+          command: |
+              apt-get install jq
+              bash ./scripts/circleci/deploy.sh
+              bash ./scripts/circleci/update-dns.sh prod
           environment:
             CIRCLE_SPRING_PROFILES: prod
 
