@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -eoux pipefail
 
 n=0
 until [ $n -ge 10 ]
