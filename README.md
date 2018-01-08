@@ -44,7 +44,7 @@ Deployment is captured in code as part of the circle ci pipeline (see ```.circle
 The actual implementation of the steps is captured under ```scripts/circleci/```. 
 
 
-Gcloud cluster creation and teardown
+Cluster creation and teardown
 ---------------------------------------------------------------------- 
 
 You can create a new cluster ready to deploy to with following command:
@@ -53,5 +53,5 @@ You can create a new cluster ready to deploy to with following command:
 
 To save monies you can tear down the cluster with following command:
 
-```./scripts/gcloud/cleanup-cluster.sh```
+```./scripts/gcloud/teardown-cluster.sh```
 
