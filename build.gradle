@@ -23,7 +23,7 @@ configurations {
 }
 
 dependencies {
-    lombok 'org.projectlombok:lombok:1.16.10'
+    lombok 'org.projectlombok:lombok:1.18.10'
 }
 
 sourceSets.each{ sourceSet ->
@@ -68,7 +68,7 @@ dependencies {
     compile "io.springfox:springfox-swagger2:2.9.2"
     compile "io.springfox:springfox-swagger-ui:2.7.0"
 
-    compileOnly 'org.projectlombok:lombok:1.16.18'
+    compileOnly 'org.projectlombok:lombok:1.18.10'
 }
 
 task integrationTests(type: Test, dependsOn: testClasses) {
