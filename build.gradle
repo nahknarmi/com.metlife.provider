@@ -50,7 +50,7 @@ dependencies {
         exclude module: "spring-boot-starter-tomcat"
     }
 
-    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+    compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.4-groovyless'
 
     compile("org.springframework.boot:spring-boot-starter-jetty")
     // end::jetty[]
